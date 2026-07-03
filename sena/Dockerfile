@@ -28,4 +28,6 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD python manage.py migrate --noinput && gunicorn sena.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+CMD python manage.py migrate --noinput && \
+    python manage.py createsuperuser --noinput || true && \
+    gunicorn sena.wsgi:application --bind 0.0.0.0:${PORT:-8000}
