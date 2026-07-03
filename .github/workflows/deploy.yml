@@ -47,8 +47,8 @@ jobs:
           python manage.py migrate --noinput
 
       - name: Ejecutar pruebas
-        working-directory: Acerautoos/sena
+        working-directory: Acerautoos/sena/app
         env:
           DJANGO_SETTINGS_MODULE: sena.settings
         run: |
-          pytest
+          pytest tests.py
