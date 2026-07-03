@@ -1,67 +1,81 @@
-from pathlib import Path
-import sys
-sys.path.append(str(Path(__file__).parent.parent))  
-from sena.asgi import * #importan la ruta del proyecto
-from app.models import *  #importan los modelos  
-# Create your tests here.
+from django.test import TestCase
+from django.contrib.auth import get_user_model
+from .models import PerfilUsuario
 
-#insertar
-'''
-t = Categoria(nombre="estufa", descripcion="dispositivos electronicos")
-t.save()
-t = Categoria(nombre="ducha", descripcion="dispositivos electronicos")
-t.save()
+User = get_user_model()
 
-t = Categoria(nombre="nevera", descripcion="dispositivos electronicos")
-t.save()  
-print("categoria guardada")
-'''
 
-# listar
-#query = Categoria.objects.all()
-#print(query)
+class PerfilUsuarioModelTest(TestCase):
 
-# editar
-#try:
-#    t = Categoria.objects.get(id=1)
-#    print(t.nombre)
-#    t.nombre = "Lavadora"
-#    t.save()
-#    print("Categoria actualizada")
-#except Exception as e:
-#    print(e)
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="juan",
+            password="12345678"
+        )
 
-# eliminar
-'''
-t = Categoria.objects.get(id=1)
-t.delete()
-print(t)
-'''
+        self.perfil = PerfilUsuario.objects.create(
+            user=self.user,
+            rol="cliente",
+            cedula="123456789",
+            telefono="3001234567"
+        )
 
-#listar con filtros
+    def test_crear_perfil_usuario(self):
+        """Verifica que el perfil se cree correctamente."""
+        self.assertEqual(self.perfil.user.username, "juan")
+        self.assertEqual(self.perfil.rol, "cliente")
+        self.assertEqual(self.perfil.cedula, "123456789")
+        self.assertEqual(self.perfil.telefono, "3001234567")
 
-'''
-obj = Categoria.objects.filter(nombre__contains="electro")
-print(obj)
-'''
-'''
-for i in Categoria.objects.filter(nombre__contains="la"):
-    print(i.id, i.nombre, )
-'''
-#guardar dentro de lista de fonma masiva
-'''
-data = ['electrodomesticos', 'muebles', 'tecnologia', 'ropa']
+    def test_str(self):
+        """Verifica el método __str__."""
+        self.assertEqual(str(self.perfil), "juan - Cliente")
 
-for i in data: 
-    cat= Categoria.objects.create(
-        nombre=i,
-        descripcion=f'descripcion de {i}'
-        
-    )
-    cat.save()
-    print(f'categoria {cat.nombre} creada con exito')
-'''
-    
-    
-    
+    def test_rol_por_defecto(self):
+        """Verifica que el rol por defecto sea cliente."""
+        user2 = User.objects.create_user(
+            username="maria",
+            password="12345678"
+        )
 
+        perfil2 = PerfilUsuario.objects.create(
+            user=user2,
+            cedula="987654321"
+        )
+
+        self.assertEqual(perfil2.rol, "cliente")
+
+    def test_verbose_name(self):
+        """Verifica el verbose_name del modelo."""
+        self.assertEqual(
+            PerfilUsuario._meta.verbose_name,
+            "Perfil de Usuario"
+        )
+
+    def test_verbose_name_plural(self):
+        """Verifica el verbose_name_plural."""
+        self.assertEqual(
+            PerfilUsuario._meta.verbose_name_plural,
+            "Perfiles de Usuarios"
+        )
+
+    def test_db_table(self):
+        """Verifica el nombre de la tabla."""
+        self.assertEqual(
+            PerfilUsuario._meta.db_table,
+            "perfil_usuario"
+        )
+
+    def test_cedula_es_unica(self):
+        """Verifica que la cédula sea única."""
+        user2 = User.objects.create_user(
+            username="pedro",
+            password="12345678"
+        )
+
+        with self.assertRaises(Exception):
+            PerfilUsuario.objects.create(
+                user=user2,
+                rol="empleado",
+                cedula="123456789"
+            )
