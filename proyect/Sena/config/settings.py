@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from whitenoise.storage import CompressedManifestStaticFilesStorage
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -85,9 +86,15 @@ USE_TZ = True
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # <-- necesario para collectstatic
+
+
+class SilentFileMissingStorage(CompressedManifestStaticFilesStorage):
+    manifest_strict = False
+
+
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "config.settings.SilentFileMissingStorage",
     },
 }
 
