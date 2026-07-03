@@ -24,12 +24,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-WORKDIR /app
+# La ruta correcta donde está manage.py
+WORKDIR /app/Acerautoos/sena
 
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD python manage.py migrate --noinput && \
-    python manage.py createsuperuser --noinput || true && \
-    gunicorn sena.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+CMD sh -c "python manage.py migrate --noinput && \
+gunicorn sena.wsgi:application --bind 0.0.0.0:${PORT:-8000}"
