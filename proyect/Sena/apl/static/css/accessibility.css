@@ -1,0 +1,116 @@
+/* static/css/accessibility.css - VERSIÓN CORREGIDA Y AGRESIVA */
+
+/* --- WIDGET Y PANEL (Sin cambios) --- */
+.accessibility-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+/* ... (el resto de los estilos del widget hasta la sección de temas no cambia) ... */
+#accessibility-btn { font-size: 24px; width: 60px; height: 60px; border-radius: 50%; border: 2px solid #0056b3; cursor: pointer; background-color: white; color: #0056b3; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s ease; }
+#accessibility-btn:hover { transform: scale(1.1); }
+#accessibility-panel { display: flex; flex-direction: column; gap: 10px; padding: 15px; border: 1px solid #ccc; background-color: white; border-radius: 8px; position: absolute; bottom: 100%; right: 0; margin-bottom: 15px; width: 200px; box-shadow: 0 6px 16px rgba(0,0,0,0.2); transition: opacity 0.3s, visibility 0.3s; }
+#accessibility-panel.panel-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#accessibility-panel h4 { margin: 0 0 10px 0; text-align: center; color: #333; }
+#accessibility-panel button { padding: 10px; border: 1px solid #ddd; background-color: #f7f7f7; cursor: pointer; border-radius: 5px; text-align: left; transition: background-color 0.2s; }
+#accessibility-panel button:hover { background-color: #e9e9e9; }
+
+
+/* ================================================================ */
+/* === ESTILOS DE ACCESIBILIDAD APLICADOS (VERSIÓN CORREGIDA) === */
+/* ================================================================ */
+
+
+/* --- 🎨 MODO OSCURO 🎨 --- */
+html.dark-mode {
+    color-scheme: dark;
+}
+
+/* Forzamos el fondo y color principal con !important */
+html.dark-mode body {
+    background-color: #1c1c1e !important;
+    color: #e5e5e7 !important;
+}
+
+/* Forzamos a que los contenedores genéricos adopten los colores oscuros */
+html.dark-mode div,
+html.dark-mode section,
+html.dark-mode article,
+html.dark-mode header,
+html.dark-mode footer,
+html.dark-mode nav,
+html.dark-mode aside,
+html.dark-mode main {
+    background-color: #2c2c2e !important;
+    border-color: #4a4a4f !important;
+    color: inherit !important;
+}
+
+html.dark-mode a {
+    color: #64b5f6 !important;
+}
+
+html.dark-mode button,
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select {
+    background-color: #3a3a3c !important;
+    color: #f2f2f7 !important;
+    border: 1px solid #545458 !important;
+}
+
+/* El propio widget en modo oscuro */
+html.dark-mode .accessibility-widget #accessibility-btn,
+html.dark-mode .accessibility-widget #accessibility-panel {
+    background-color: #3a3a3c !important;
+    color: #f2f2f7 !important;
+    border-color: #545458 !important;
+}
+html.dark-mode .accessibility-widget #accessibility-panel h4 {
+    color: #f2f2f7 !important;
+}
+
+
+/* --- ⚫ ALTO CONTRASTE ⚫ --- */
+html.high-contrast body {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* En alto contraste, forzamos fondos transparentes para heredar el negro */
+html.high-contrast div,
+html.high-contrast section,
+html.high-contrast article,
+html.high-contrast header,
+html.high-contrast footer,
+html.high-contrast nav,
+html.high-contrast aside,
+html.high-contrast main {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+html.high-contrast a {
+    color: #FFFF00 !important;
+}
+
+html.high-contrast button,
+html.high-contrast input,
+html.high-contrast textarea,
+html.high-contrast select {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+/* El propio widget en alto contraste */
+html.high-contrast .accessibility-widget #accessibility-btn,
+html.high-contrast .accessibility-widget #accessibility-panel {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+html.high-contrast .accessibility-widget #accessibility-panel h4 {
+    color: #fff !important;
+}

@@ -1,0 +1,60 @@
+{% extends 'body.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}" />
+{% endblock %}
+
+{% block contenido %}
+<div class="card flex-grow-1-fluid">
+    <div class="card-header">
+        <h3 class="card-title">Listado de Categorías</h3>
+        <div class="card-tools">
+            <a href="#" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Nueva Categoría
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" id="tabla">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in object_list %}
+                <tr>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.nombre }}</td>
+                    <td>
+                        <a href="#" class="btn btn-info btn-xs"><i class='fas fa-marker'></i></a>
+                        <a href="#" class="btn btn-danger btn-xs"><i class='fas fa-trash-alt'></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <script type="application/javascript">
+        $(function () {
+            $('#tabla').DataTable({
+                responsive: true,
+                autoWidth: false,
+                
+            });
+        });
+    </script>
+{% endblock %}
