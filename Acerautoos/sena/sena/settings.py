@@ -10,9 +10,6 @@ load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-(1x7w0^_8zvx$7z$@4z!j+31!r0@=13vs0@qby2-ac8xuj#c=u')
 
-# DEBUG se controla por variable de entorno.
-# En Render: crea una env var DEBUG=False en el dashboard.
-# En local (.env): pon DEBUG=True.
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '.onrender.com']
@@ -74,7 +71,6 @@ WSGI_APPLICATION = 'sena.wsgi.application'
 
 
 # ========== BASE DE DATOS ==========
-# SQLite para todo: desarrollo local, CI y Render (datos de prueba, no persistentes)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -99,8 +95,6 @@ USE_THOUSAND_SEPARATOR = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Carpeta de estáticos propia del proyecto (fuera de las apps).
-# Debe existir físicamente en tu repo (aunque sea con un .gitkeep dentro).
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -110,13 +104,9 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
-
-# Evita que collectstatic falle si un archivo de una librería de terceros
-# (como un .map de DataTables/Bootstrap) referencia otro archivo que no existe.
-WHITENOISE_MANIFEST_STRICT = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
