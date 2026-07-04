@@ -25,7 +25,7 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(
              template_name='registration/password_reset_confirm.html',
-             post_reset_login=False,  
+             post_reset_login=False,
          ),
          name='password_reset_confirm'),
 
@@ -34,6 +34,9 @@ urlpatterns = [
          name='password_reset_complete'),
 ]
 
+
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    if settings.STATICFILES_DIRS:
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    if settings.MEDIA_URL and settings.MEDIA_ROOT:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

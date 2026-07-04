@@ -9,15 +9,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-(1x7w0^_8zvx$7z$@4z!j+31!r0@=13vs0@qby2-ac8xuj#c=u')
-DEBUG = True
+
+# DEBUG se controla por variable de entorno.
+# En Render: crea una env var DEBUG=False en el dashboard.
+# En local (.env): pon DEBUG=True.
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://acerautos-app.onrender.com',
 ]
-
-
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -37,6 +39,7 @@ AUTH_USER_MODEL = 'app.UsuarioSistema'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # <-- NUEVO: justo después de SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,8 +95,27 @@ USE_I18N = True
 USE_TZ = True
 USE_THOUSAND_SEPARATOR = True
 
+# ========== ARCHIVOS ESTÁTICOS ==========
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Carpeta de estáticos propia del proyecto (fuera de las apps).
+# Asegúrate de que esta carpeta exista físicamente en tu repo (aunque sea con un .gitkeep).
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# WhiteNoise: comprime y sirve los estáticos directamente desde Django,
+# funcionando igual con DEBUG=True o DEBUG=False.
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ========== REDIRECCION LOGIN/LOGOUT ==========
