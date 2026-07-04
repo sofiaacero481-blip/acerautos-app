@@ -39,7 +39,7 @@ AUTH_USER_MODEL = 'app.UsuarioSistema'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # <-- NUEVO: justo después de SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,22 +100,23 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Carpeta de estáticos propia del proyecto (fuera de las apps).
-# Asegúrate de que esta carpeta exista físicamente en tu repo (aunque sea con un .gitkeep).
+# Debe existir físicamente en tu repo (aunque sea con un .gitkeep dentro).
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-# WhiteNoise: comprime y sirve los estáticos directamente desde Django,
-# funcionando igual con DEBUG=True o DEBUG=False.
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "sena.storage.SilentCompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
+# Evita que collectstatic falle si un archivo de una librería de terceros
+# (como un .map de DataTables/Bootstrap) referencia otro archivo que no existe.
+WHITENOISE_MANIFEST_STRICT = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
