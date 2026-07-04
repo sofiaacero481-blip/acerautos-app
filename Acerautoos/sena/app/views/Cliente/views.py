@@ -27,7 +27,7 @@ class AdminOMecanicoMixin(UserPassesTestMixin):
 # ── 1. LISTADO — Mecánico puede ver ──────────────────────────────
 class ClienteListView(LoginRequiredMixin, AdminOMecanicoMixin, ListView):
     model = Cliente
-    template_name = 'cliente/listar.html'
+    template_name = 'Cliente/listar.html'
     context_object_name = 'clientes'
 
     def get_context_data(self, **kwargs):
