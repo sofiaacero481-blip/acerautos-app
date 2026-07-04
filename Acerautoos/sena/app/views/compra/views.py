@@ -21,7 +21,7 @@ class SoloAdminMixin(UserPassesTestMixin):
 
 class CompraListView(LoginRequiredMixin, SoloAdminMixin, ListView):
     model = Compra
-    template_name = 'Compra/listar.html'
+    template_name = 'compra/listar.html'
     context_object_name = 'compras'
 
     def get_queryset(self):
@@ -44,7 +44,7 @@ def _get_proveedor_id(request, instance=None):
 class CompraCreateView(LoginRequiredMixin, SoloAdminMixin, CreateView):
     model = Compra
     form_class = CompraForm
-    template_name = 'Compra/crear.html'
+    template_name = 'compra/crear.html'
     success_url = reverse_lazy('app:lista_compras')
 
     def get_context_data(self, **kwargs):
@@ -89,7 +89,7 @@ class CompraCreateView(LoginRequiredMixin, SoloAdminMixin, CreateView):
 class CompraUpdateView(LoginRequiredMixin, SoloAdminMixin, UpdateView):
     model = Compra
     form_class = CompraForm
-    template_name = 'Compra/crear.html'
+    template_name = 'compra/crear.html'
     success_url = reverse_lazy('app:lista_compras')
 
     def get_context_data(self, **kwargs):
@@ -133,7 +133,7 @@ class CompraUpdateView(LoginRequiredMixin, SoloAdminMixin, UpdateView):
 
 class CompraDeleteView(LoginRequiredMixin, SoloAdminMixin, DeleteView):
     model = Compra
-    template_name = 'Compra/eliminar.html'
+    template_name = 'compra/eliminar.html'
     success_url = reverse_lazy('app:lista_compras')
 
     def get_context_data(self, **kwargs):
