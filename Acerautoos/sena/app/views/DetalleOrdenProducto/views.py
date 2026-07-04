@@ -59,7 +59,7 @@ class DetalleOrdenListView(LoginRequiredMixin, AccesoLecturaTallerMixin, ListVie
         hace_6_meses = timezone.now() - timedelta(days=180)
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT DATE_FORMAT(o.fecha, '%%Y-%%m') as mes, SUM(d.cantidad) as total
+                SELECT strftime('%%Y-%%m', o.fecha) as mes, SUM(d.cantidad) as total
                 FROM detalle_orden_producto d
                 JOIN orden_servicio o ON d.orden_id = o.id
                 WHERE o.fecha >= %s
