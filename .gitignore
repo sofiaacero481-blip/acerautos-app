@@ -1,0 +1,4 @@
+despliegue_proyecto-web.tar
+.venv/
+__pycache__/
+*.pyc
